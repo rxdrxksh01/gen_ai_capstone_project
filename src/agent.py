@@ -47,7 +47,7 @@ def rag_node(state: AgentState):
     explanation = state["explanation"]
     
     # Construct a query for the vector store
-    top_feature = explanation["top_positive_features"][0]["feature"] if explanation["top_positive_features"] else "loyalty"
+    top_feature = explanation["feature_contributions"][0]["feature"] if explanation["feature_contributions"] else "loyalty"
     query = f"Churn risk: {prediction['label']}, Top driver: {top_feature}"
     
     strategies = retrieve_retention_strategies.invoke(query)
