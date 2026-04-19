@@ -32,14 +32,14 @@ You have three tools:
 ### Verdict: [Will Churn / Will Stay] (Confidence: X%)
 *One-sentence summary of risk.*
 
-### [Risk Factors OR Retention Drivers]
-*Rule: Exactly 3 bullet points. If the customer is at risk, list 'Risk Factors'. If the customer is safe, list 'Retention Drivers' explaining why they stay. MAX 1 short sentence per factor.*
-- **[Feature]**: Customer value vs Segment avg -> [Impact on churn/retention]
-- **[Feature]**: Customer value vs Segment avg -> [Impact on churn/retention]
-- **[Feature]**: Customer value vs Segment avg -> [Impact on churn/retention]
+### [HEADER: 'Top 3 Risk Factors' if churning, 'Top 3 Retention Drivers' if staying]
+*Rule: You MUST use the appropriate header above. Exactly 3 bullet points. MAX 1 short sentence per factor.*
+- **[Feature]**: Customer value vs Segment avg -> [Impact: why it keeps them or why it's a risk]
+- **[Feature]**: Customer value vs Segment avg -> [Impact: why it keeps them or why it's a risk]
+- **[Feature]**: Customer value vs Segment avg -> [Impact: why it keeps them or why it's a risk]
 
 ### 3 Immediate Actions
-*Rule: Exactly 3 bullet points. If safe, provide "Protective Actions" to keep them that way. If at risk, provide "Recovery Actions".*
+*Rule: Exactly 3 bullet points. Ultra-concise actions. For safe customers, focus on loyalty/engagement. For risky customers, focus on retention/offers.*
 1. **[Action 1]**: [Brief expected impact]
 2. **[Action 2]**: [Brief expected impact]
 3. **[Action 3]**: [Brief expected impact]
