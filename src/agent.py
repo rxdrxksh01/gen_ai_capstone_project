@@ -43,12 +43,14 @@ def explain_node(state: AgentState):
 
 def rag_node(state: AgentState):
     """RAG Step: Retrieve retention strategies based on findings."""
-    prediction = state["prediction"]
-    explanation = state["explanation"]
+    prediction = state.get("prediction", {"label": "Unknown"})
+    explanation = state.get("explanation", {})
     
-    # Construct a query for the vector store
-    top_feature = explanation["feature_contributions"][0]["feature"] if explanation["feature_contributions"] else "loyalty"
-    query = f"Churn risk: {prediction['label']}, Top driver: {top_feature}"
+    # Defensive extraction of top feature
+    contributions = explanation.get("feature_contributions", [])
+    top_feature = contributions[0].get("feature", "general_behavior") if contributions else "loyalty"
+    
+    query = f"Churn risk: {prediction.get('label')}, Top driver: {top_feature}"
     
     strategies = retrieve_retention_strategies.invoke(query)
     return {"strategies": strategies}
