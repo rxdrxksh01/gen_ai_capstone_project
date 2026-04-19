@@ -13,9 +13,9 @@ MODEL_NAME = "llama-3.3-70b-versatile"
 TEMPERATURE = 0.5
 
 # --- File Paths ---
-PROJECT_ROOT = Path(__file__).parent.parent
-PIPELINE_PATH = str(PROJECT_ROOT / "models" / "churn_pipeline.pkl")
-DATASET_PATH = str(PROJECT_ROOT / "data" / "E Commerce Dataset.xlsx")
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PIPELINE_PATH = str((PROJECT_ROOT / "models" / "churn_pipeline.pkl").absolute())
+DATASET_PATH = str((PROJECT_ROOT / "data" / "E Commerce Dataset.xlsx").absolute())
 
 # --- Feature Lists ---
 NUMERICAL_FEATURES = [

@@ -19,6 +19,10 @@ warnings.filterwarnings("ignore")
 DIRECTION_MAP = {True: "pushes_toward_churn", False: "pushes_away_from_churn"}
 
 
+# Global cache for the pipeline
+_pipeline = None
+
+
 @tool
 def explain_prediction(customer_data: str) -> str:
     """Explain the churn prediction using SHAP (SHapley Additive exPlanations).
@@ -34,8 +38,16 @@ def explain_prediction(customer_data: str) -> str:
         each containing: feature name, customer's raw value,
         SHAP value, absolute impact, and direction.
     """
+    global _pipeline
+
+    if _pipeline is None:
+        try:
+            _pipeline = joblib.load(PIPELINE_PATH)
+        except Exception as e:
+            return json.dumps({"error": f"Failed to load pipeline for explanation: {str(e)}"})
+
+    pipeline = _pipeline
     data = json.loads(customer_data)
-    pipeline = joblib.load(PIPELINE_PATH)
 
     preprocessor = pipeline.named_steps["preprocessing"]
     model = pipeline.named_steps["model"]

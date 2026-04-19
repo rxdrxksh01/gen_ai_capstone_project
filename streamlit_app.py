@@ -2,11 +2,17 @@ import streamlit as st
 import pandas as pd
 import joblib
 
+from src.config import PIPELINE_PATH
+
 # Page config
 st.set_page_config(page_title="Customer Churn Predictor", page_icon="📊", layout="centered")
 
 # Load trained pipeline
-model = joblib.load("churn_pipeline.pkl")
+@st.cache_resource
+def load_model():
+    return joblib.load(PIPELINE_PATH)
+
+model = load_model()
 
 st.title("📊 Customer Churn Predictor")
 
