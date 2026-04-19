@@ -11,7 +11,7 @@ from src.agent import create_churn_agent
 # ─── Page Config ───
 st.set_page_config(
     page_title="Telecom Churn Predictor — AI Agent",
-    layout="balanced",
+    layout="wide",
 )
 
 # ─── Cache the agent so it's not recreated on every rerun ───
