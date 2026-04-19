@@ -14,6 +14,8 @@ This project represents the evolution of a standard machine learning classifier 
 ---
 
 ## 🧠 System Architecture & Workflow
+![System Architecture](assets/customer_churn_agent_workflow.svg)
+
 The heart of this project is a multi-node **LangGraph State Machine** that executes an autonomous reasoning loop.
 
 ### The Reasoning Workflow (LangGraph)
