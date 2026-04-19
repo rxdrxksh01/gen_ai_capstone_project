@@ -1,0 +1,97 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{booktabs}
+
+\geometry{margin=1in}
+
+\begin{document}
+
+% --- PAGE 1: TITLE PAGE ---
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge \textbf{Agentic AI Customer Retention Strategy Assistant} \par}
+    \vspace{1.5cm}
+    {\Large \textbf{Gen AI Capstone Project Report} \par}
+    \vspace{3cm}
+    
+    {\Large \textbf{Team Members:} \par}
+    \vspace{1cm}
+    {\large
+    Rudraksh Sharma (2401010395) \\
+    Bineet Keshari (2401010130) \\
+    Vridhi Chaudhary (2401010336) \\
+    Anshuman Mehta (2401010082)
+    \par}
+    
+    \vfill
+    {\large \today \par}
+\end{titlepage}
+
+% --- PAGE 2: TABLE OF CONTENTS ---
+\newpage
+\tableofcontents
+\newpage
+
+% --- PAGE 3: INTRODUCTION & METHODOLOGY ---
+\section{Project Overview}
+The "Agentic AI Customer Retention Strategy Assistant" is an end-to-end intelligent system designed to proactively mitigate customer churn in the e-commerce sector. Unlike traditional predictive models which act as simple black-box classifiers, this system evolves into an autonomous reasoning agent. It bridges the gap between raw data insights and actionable business strategies by integrating high-performance machine learning with Large Language Model (LLM) orchestration.
+
+\section{Data Intelligence and Transformation Pipeline}
+The efficacy of the retention system is predicated on a high-fidelity dataset comprising 5,630 unique customer profiles. The initial phase involved an exhaustive Exploratory Data Analysis (EDA) to decode the multi-dimensional behavioral patterns of churned versus retained users.
+
+\subsection{Risk Indicator Identification}
+Through correlation matrices and distribution analysis, we identified a critical "Churn Nexus" consisting of features with the highest predictive power:
+\begin{description}
+    \item[Tenure (Temporal Loyalty)] Customers with a membership duration of less than 6 months exhibited a 40\% higher churn propensity, highlighting the "early-attrition" risk window.
+    \item[The Friction Factor (Complaints)] A binary indicator of customer grievances emerged as the strongest qualitative signal of dissatisfaction.
+    \item[Spatial Logistics] Analysis revealed that customers residing further from the central warehouse suffered from increased delivery lead times, directly impacting loyalty.
+\end{description}
+
+\subsection{Feature Engineering and Preprocessing}
+To optimize the signal-to-noise ratio for the XGBoost engine, we implemented a robust transformation pipeline:
+\begin{itemize}
+    \item \textbf{Numerical Optimization}: Skewed features such as \texttt{CashbackAmount} were normalized using standard scaling to ensure uniform variance.
+    \item \textbf{Categorical Encoding}: High-cardinality nominal variables like \texttt{PreferredPaymentMode} were transformed using One-Hot Encoding to preserve all behavioral categories.
+    \item \textbf{Dimensionality Refinement}: Features with zero variance or high multicollinearity (e.g., redundant ID fields) were pruned to prevent model overfitting and minimize computational latency.
+\end{itemize}
+
+\section{Phase 1: Predictive Modeling Mastery}
+The first milestone focused on establishing a robust predictive foundation. Through extensive evaluation of multiple algorithms:
+\begin{itemize}
+    \item \textbf{Logistic Regression}: Provided a statistical baseline for linear relationships.
+    \item \textbf{Random Forest}: Captured non-linear patterns through ensemble learning.
+    \item \textbf{XGBoost}: Emerged as the final selection due to its superior gradient boosting performance, achieving an Accuracy of 0.97 and an F1-Score of 0.89.
+\end{itemize}
+
+% --- PAGE 4: AGENTIC ARCHITECTURE & CONCLUSION ---
+\newpage
+\section{Phase 2: The Agentic Reasoning Engine}
+Milestone 2 represents the convergence of Machine Learning and Generative AI. The system was refactored into a modular Agentic Framework using **LangGraph**.
+
+\subsection{LangGraph State Orchestration}
+The agent acts as a "State Machine" that manages the transition between four distinct logical nodes. Each node performs a specific task and updates a global "Agent State," ensuring that the reasoning process is persistent and modular. This architecture allows the system to autonomously plan its analysis path based on the input data without the need for manual if-else logic.
+
+\subsection{Explainable AI via SHAP}
+One of the core features of this system is transparency. By integrating **SHAP (SHapley Additive exPlanations)**, the agent doesn't just provide a percentage risk; it identifies the exact "Drivers of Churn" by calculating the marginal contribution of each input feature to the final prediction.
+
+\subsection{RAG-Enhanced Strategy Retrieval}
+To ensure the recommendations are grounded in reality, we implemented a **Retrieval-Augmented Generation (RAG)** pipeline. The agent uses a \textbf{FAISS Vector Database} populated with professional e-commerce retention strategies. Based on the SHAP analysis, the agent semantically retrieves the most relevant strategy (e.g., specific discounts for distance-affected customers vs. loyalty rewards for long-tenure customers).
+
+\section{System Performance and Impact}
+The final implementation provides a unified platform that delivers:
+\begin{description}
+    \item[High Precision Identification]: Accurate churn classification through XGBoost.
+    \item[Actionable Context]: SHAP-driven explanations for internal stakeholder review.
+    \item[Prescriptive Guidance]: RAG-derived interventions for immediate customer outreach.
+\end{description}
+
+\section{Conclusion}
+This capstone project successfully demonstrates the utility of Agentic AI in complex business environments. By transforming a binary classifier into a reasoning-capable assistant, the system provides a comprehensive "Analyze-Explain-Strategize" loop that is essential for modern data-driven retention efforts.
+
+\end{document}
