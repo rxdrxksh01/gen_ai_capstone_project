@@ -235,9 +235,9 @@ def _execute_agent():
     customer_data = {k: v for k, v in st.session_state.items() if k in default_values}
     customer_json = json.dumps(customer_data)
 
-    with st.spinner("AI Agent analyzing patterns..."):
+    with st.spinner("LangGraph Agent reasoning and retrieving strategies..."):
         response = agent_executor.invoke(
-            {"input": f"Analyze this customer for churn risk. Here is their data: {customer_json}"}
+            {"input": customer_json}
         )
 
     st.session_state["agent_result"] = response["output"]

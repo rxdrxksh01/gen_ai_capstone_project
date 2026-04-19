@@ -1,78 +1,121 @@
 """
-LangChain Agent Builder
-Creates a tool-calling agent powered by Groq LLaMA 3.3 70B.
-The agent autonomously calls tools and synthesizes churn analysis — zero if-else.
+LangGraph Agent — Milestone 2 Refactor
+Implements a structured state machine with RAG for e-commerce retention.
 """
 
+import json
+from typing import TypedDict, Annotated
+import operator
+
+from langgraph.graph import StateGraph, END
 from langchain_groq import ChatGroq
-from langchain.agents import create_tool_calling_agent, AgentExecutor
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.messages import BaseMessage, HumanMessage
 
 from src.config import GROQ_API_KEY, MODEL_NAME, TEMPERATURE
 from tools.predict import predict_churn
 from tools.explainer import explain_prediction
-from tools.segment_stats import get_customer_segment_stats
+from tools.retention_rag import retrieve_retention_strategies
 
-SYSTEM_PROMPT = """You are a highly efficient Customer Retention AI for an e-commerce platform.
-Your objective is to provide a concise, data-driven churn risk assessment.
+# ─── 1. Define State ───
+class AgentState(TypedDict):
+    input: str
+    customer_data: dict
+    prediction: dict
+    explanation: dict
+    strategies: str
+    final_output: str
 
-You have three tools:
-1. predict_churn: Predicts churn probability. (Pass customer data JSON)
-2. explain_prediction: SHAP-based feature contributions. (Pass customer data JSON)
-3. get_customer_segment_stats: Benchmark stats. (Pass any string)
+# ─── 2. Define Nodes ───
 
-## Action Sequence:
-1. Run predict_churn
-2. Run explain_prediction
-3. Run get_customer_segment_stats
-4. Output the exact format below.
+def predict_node(state: AgentState):
+    """Run churn prediction logic."""
+    # Extra data from input string (assuming JSON string passed as input)
+    # or passed directly in state. For our app, we'll pass customer_json in input.
+    customer_json = state["input"]
+    result_str = predict_churn.invoke(customer_json)
+    return {"prediction": json.loads(result_str), "customer_data": json.loads(customer_json)}
 
-## REQUIRED OUTPUT FORMAT:
+def explain_node(state: AgentState):
+    """Run SHAP explanation logic."""
+    customer_json = json.dumps(state["customer_data"])
+    result_str = explain_prediction.invoke(customer_json)
+    return {"explanation": json.loads(result_str)}
 
-### Verdict: [Will Churn / Will Stay] (Confidence: X%)
-*One-sentence summary of risk.*
+def rag_node(state: AgentState):
+    """RAG Step: Retrieve retention strategies based on findings."""
+    prediction = state["prediction"]
+    explanation = state["explanation"]
+    
+    # Construct a query for the vector store
+    top_feature = explanation["top_positive_features"][0]["feature"] if explanation["top_positive_features"] else "loyalty"
+    query = f"Churn risk: {prediction['label']}, Top driver: {top_feature}"
+    
+    strategies = retrieve_retention_strategies.invoke(query)
+    return {"strategies": strategies}
 
-### [HEADER: 'Top 3 Risk Factors' if churning, 'Top 3 Retention Drivers' if staying]
-*Rule: You MUST use the appropriate header above. Exactly 3 bullet points. MAX 1 short sentence per factor.*
-- **[Feature]**: Customer value vs Segment avg -> [Impact: why it keeps them or why it's a risk]
-- **[Feature]**: Customer value vs Segment avg -> [Impact: why it keeps them or why it's a risk]
-- **[Feature]**: Customer value vs Segment avg -> [Impact: why it keeps them or why it's a risk]
-
-### 3 Immediate Actions
-*Rule: Exactly 3 bullet points. Ultra-concise actions. For safe customers, focus on loyalty/engagement. For risky customers, focus on retention/offers.*
-1. **[Action 1]**: [Brief expected impact]
-2. **[Action 2]**: [Brief expected impact]
-3. **[Action 3]**: [Brief expected impact]
-
-Do NOT generate any extra text, paragraphs, or pleasantries. Be ruthless with brevity.
-"""
-
-
-def create_churn_agent() -> AgentExecutor:
-    """Build and return the LangChain AgentExecutor for churn analysis."""
-
+def synthesis_node(state: AgentState):
+    """Synthesize final structured report using LLM."""
     llm = ChatGroq(
         model=MODEL_NAME,
         temperature=TEMPERATURE,
         api_key=GROQ_API_KEY,
     )
+    
+    prompt = f"""You are a Customer Retention AI. Synthesize the following data into a structured report.
 
-    tools = [predict_churn, explain_prediction, get_customer_segment_stats]
+DATA:
+- Prediction: {state['prediction']}
+- SHAP Details: {state['explanation']}
+- RAG Strategies: {state['strategies']}
 
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", SYSTEM_PROMPT),
-        ("human", "{input}"),
-        MessagesPlaceholder("agent_scratchpad"),
-    ])
+REQUIRED FORMAT:
+### Verdict: [Will Churn / Will Stay] (Confidence: X%)
+*One-sentence summary of risk.*
 
-    agent = create_tool_calling_agent(llm, tools, prompt)
+### [HEADER: 'Top 3 Risk Factors' if churning, 'Top 3 Retention Drivers' if staying]
+- **[Factor 1]**: [Detail]
+- **[Factor 2]**: [Detail]
+- **[Factor 3]**: [Detail]
 
-    executor = AgentExecutor(
-        agent=agent,
-        tools=tools,
-        verbose=True,
-        handle_parsing_errors=True,
-        max_iterations=10,
-    )
+### 3 Immediate Actions
+*Rule: Use the retrieved RAG strategies to provide concrete, actionable steps.*
+1. [Action]
+2. [Action]
+3. [Action]
 
-    return executor
+Do NOT include pleasantries. Be concise.
+"""
+    response = llm.invoke([HumanMessage(content=prompt)])
+    return {"final_output": response.content}
+
+# ─── 3. Build Graph ───
+
+def create_churn_graph():
+    workflow = StateGraph(AgentState)
+    
+    workflow.add_node("predict", predict_node)
+    workflow.add_node("explain", explain_node)
+    workflow.add_node("rag", rag_node)
+    workflow.add_node("synthesis", synthesis_node)
+    
+    workflow.set_entry_point("predict")
+    workflow.add_edge("predict", "explain")
+    workflow.add_edge("explain", "rag")
+    workflow.add_edge("rag", "synthesis")
+    workflow.add_edge("synthesis", END)
+    
+    return workflow.compile()
+
+# For backwards compatibility with app.py (wrapped in an interface)
+class LangGraphAgent:
+    def __init__(self):
+        self.graph = create_churn_graph()
+        
+    def invoke(self, inputs: dict) -> dict:
+        # Input looks like {"input": "..."}
+        result = self.graph.invoke(inputs)
+        return {"output": result["final_output"]}
+
+def create_churn_agent():
+    """Factory function matching previous signature."""
+    return LangGraphAgent()
