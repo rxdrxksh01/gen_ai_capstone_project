@@ -195,7 +195,7 @@ with st.sidebar:
                 "OrderCount": 20.0, "DaySinceLastOrder": 5.0, "CashbackAmount": 500.0,
                 "PreferredLoginDevice": "Mobile Phone",
                 "PreferredPaymentMode": "UPI",
-                "Gender": "Female", "PreferedOrderCat": "Grocery",
+                "Gender": "Female", "PreferedOrderCat": "Fiber",
                 "MaritalStatus": "Married",
             }),
         )
@@ -222,7 +222,14 @@ with st.sidebar:
         st.session_state["PreferredLoginDevice"] = st.selectbox("Login Device", ["Mobile Phone", "Computer"], index=["Mobile Phone", "Computer"].index(st.session_state["PreferredLoginDevice"]))
         st.session_state["PreferredPaymentMode"] = st.selectbox("Payment Mode", ["UPI", "Credit Card", "Debit Card", "Cash on Delivery", "E wallet", "COD"], index=["UPI", "Credit Card", "Debit Card", "Cash on Delivery", "E wallet", "COD"].index(st.session_state["PreferredPaymentMode"]))
         st.session_state["Gender"] = st.selectbox("Gender", ["Male", "Female"], index=["Male", "Female"].index(st.session_state["Gender"]))
-        st.session_state["PreferedOrderCat"] = st.selectbox("Service Category", ["Internet", "Fiber", "Mobile", "Streaming", "Others"], index=["Internet", "Fiber", "Mobile", "Streaming", "Others"].index(st.session_state["PreferedOrderCat"]))
+        
+        # Safety check for Telecom categories
+        service_options = ["Internet", "Fiber", "Mobile", "Streaming", "Others"]
+        current_cat = st.session_state.get("PreferedOrderCat", "Internet")
+        if current_cat not in service_options:
+            current_cat = "Internet"
+            
+        st.session_state["PreferedOrderCat"] = st.selectbox("Service Category", service_options, index=service_options.index(current_cat))
         st.session_state["MaritalStatus"] = st.selectbox("Marital Status", ["Single", "Married"], index=["Single", "Married"].index(st.session_state["MaritalStatus"]))
 
 # Main Area
