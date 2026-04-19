@@ -57,16 +57,12 @@ The agent dynamically adjusts its reporting tone:
 ## 📂 Project Structure
 ```text
 gen_ai_capstone_project/
-├── app.py                # Main Streamlit Entry Point (LangGraph UI)
-├── src/
-│   ├── agent.py          # LangGraph Workflow Architecture
-│   ├── retention_kb.py   # RAG Knowledge Base & FAISS Initialization
-│   └── config.py         # Global Project Settings
-├── tools/
-│   ├── predict.py        # XGBoost Prediction Tool
-│   ├── explainer.py      # SHAP Explainability Tool
-│   └── retention_rag.py  # Retention Strategy Retrieval Tool
-├── churn_pipeline.pkl    # Trained ML Pipeline (XGBoost)
+├── app.py                # Main Entry Point
+├── data/                 # Raw/Processed Data (E-commerce Dataset)
+├── notebooks/            # Research & EDA (Jupyter Notebooks)
+├── models/               # Trained Models (XGBoost Pipeline)
+├── src/                  # Source Code (LangGraph & Logic)
+├── tools/                # Agentic Tools (Predict, Explain, RAG)
 ├── requirements.txt      # Dependency specification
 └── README.md             # Project Documentation
 ```

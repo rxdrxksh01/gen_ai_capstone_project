@@ -14,8 +14,8 @@ TEMPERATURE = 0.5
 
 # --- File Paths ---
 PROJECT_ROOT = Path(__file__).parent.parent
-PIPELINE_PATH = str(PROJECT_ROOT / "churn_pipeline.pkl")
-DATASET_PATH = str(PROJECT_ROOT / "E Commerce Dataset.xlsx")
+PIPELINE_PATH = str(PROJECT_ROOT / "models" / "churn_pipeline.pkl")
+DATASET_PATH = str(PROJECT_ROOT / "data" / "E Commerce Dataset.xlsx")
 
 # --- Feature Lists ---
 NUMERICAL_FEATURES = [
