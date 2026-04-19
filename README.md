@@ -95,7 +95,7 @@ streamlit run app.py
 ## 👥 Team Members
 | Name | Enrollment No. | Role |
 | :--- | :--- | :--- |
-| **Rudraksh Sharma** | 2401010395 | XGBoost Modeling, Model Evaluation, Groq LLM Integration, Deployment (Docker) |
+| **Rudraksh Sharma** | 2401010395 | XGBoost Modeling, Model Evaluation, Groq LLM Integration, Deployment 
 | **Bineet Keshari** | 2401010130 | SHAP Explainability, Feature Contribution Analysis, LangGraph Node Design, Prompt Engineering |
 | **Vridhi Chaudhary** | 2401010336 | RAG System, FAISS Vector Store, Knowledge Base Curation, Embedding & Retrieval Pipeline |
 | **Anshuman Mehta** | 2401010082 | System Architecture, LangGraph Integration, Frontend Dashboard (Streamlit), Deployment Setup |
