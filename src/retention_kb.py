@@ -8,31 +8,27 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 
-# --- Sample Retention Strategies KB ---
+# --- Telecom Retention Strategies KB ---
 RETENTION_STRATEGIES = [
     {
-        "category": "High Churn Risk",
-        "content": "For customers with high churn probability: Offer a significant 'We Miss You' discount (20%+) and prioritize their support tickets. Use multi-channel outreach (Email + Push Notification)."
+        "category": "Network & Quality",
+        "content": "For customers in low-tier cities or reporting network issues: Offer a technical audit of their local cell tower performance. Provide a temporary 'Network Performance' credit or speed boost."
     },
     {
-        "category": "Customer Satisfaction",
-        "content": "For low satisfaction scores (1-2): Trigger a proactive customer success call or a personalized apology video. Offer a 'satisfaction guarantee' refund or credit for their next order."
+        "category": "Price & Competition",
+        "content": "For customers with high monthly charges or sensitivity to price: Offer a tailored 'Loyalty Data Bundle' or a move to a more cost-effective contract with extra value (e.g., free streaming subscription)."
     },
     {
-        "category": "Pricing & Cashback",
-        "content": "For price-sensitive customers (low cashback/hike sensitivity): Enroll them in a tiered loyalty program where cashback increases with frequency. Highlight daily deals and bundles."
+        "category": "Usage & Engagement",
+        "content": "For users with low data/voice usage: Send personalized tutorials on 5G benefits or offer a 1-month trial of a premium service (e.g., cloud storage, security suite) to increase stickiness."
     },
     {
-        "category": "Engagement",
-        "content": "For low app engagement: Implement gamified rewards (daily login streaks) and send personalized product recommendations based on past browsing history."
+        "category": "Contract Renewal",
+        "content": "For customers nearing the end of their tenure: Proactively offer an early handset upgrade or a 'Contract Renewal Bonus' data allowance to prevent switching to competitors."
     },
     {
-        "category": "Delivery & Logistics",
-        "content": "For customers far from the warehouse: Offer 'Express Shipping' discounts or provide more accurate real-time tracking to reduce delivery anxiety."
-    },
-    {
-        "category": "Tenure / Loyalty",
-        "content": "For long-term customers (high tenure): Send an 'Anniversary' gift or early access to new product launches to recognize their loyalty."
+        "category": "Customer Support",
+        "content": "For customers with high complaints: Assign a dedicated 'Priority Support Agent' for 3 months and offer a sincere apology with a bill discount as a gesture of goodwill."
     }
 ]
 
