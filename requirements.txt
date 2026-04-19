@@ -15,3 +15,5 @@ langgraph
 faiss-cpu
 sentence-transformers
 langchain-huggingface
+torch
+torchvision
