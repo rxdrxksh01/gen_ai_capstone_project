@@ -100,5 +100,4 @@ streamlit run app.py
 | **Vridhi Chaudhary** | 2401010336 | EDA & Feature Engineering |
 | **Anshuman Mehta** | 2401010082 | UI/UX & Deployment |
 
----
-**© 2026 Digital Retention Intelligence System**
+

@@ -48,6 +48,8 @@ default_values = {
     "Gender": "Male",
     "PreferedOrderCat": "Grocery",
     "MaritalStatus": "Single",
+    "messages": [],
+    "last_context": {},
 }
 
 for key, value in default_values.items():
@@ -240,7 +242,14 @@ def _execute_agent():
             {"input": customer_json}
         )
 
+    # Store full context for chat follow-ups
     st.session_state["agent_result"] = response["output"]
+    st.session_state["last_context"] = {
+        "prediction": response["prediction"],
+        "explanation": response["explanation"],
+        "strategies": response["strategies"]
+    }
+    st.session_state["messages"] = [] # Reset chat when new data is analyzed
     _render_results()
 
 def _render_results():
@@ -251,6 +260,34 @@ def _render_results():
         st.markdown(st.session_state["agent_result"])
         st.markdown('</div>', unsafe_allow_html=True)
         
+        # --- Chat Section ---
+        st.markdown("---")
+        st.subheader("💬 Strategy Consultation")
+        st.caption("Ask specific questions about this customer's risk or the recommended actions.")
+        
+        # Display messages
+        for msg in st.session_state["messages"]:
+            with st.chat_message(msg["role"]):
+                st.markdown(msg["content"])
+        
+        # Chat Input
+        if prompt := st.chat_input("Ex: 'Draft a personalized apology email for this customer'"):
+            # Add user message
+            st.session_state["messages"].append({"role": "user", "content": prompt})
+            with st.chat_message("user"):
+                st.markdown(prompt)
+                
+            # Generate and add AI message
+            with st.chat_message("assistant"):
+                with st.spinner("Thinking..."):
+                    response = agent_executor.chat(
+                        prompt, 
+                        st.session_state["last_context"],
+                        st.session_state["messages"][:-1]
+                    )
+                    st.markdown(response)
+                    st.session_state["messages"].append({"role": "assistant", "content": response})
+
     def _show_info():
         st.info("Configure the customer profile in the sidebar and hit **Analyze Customer Risk**.")
         
