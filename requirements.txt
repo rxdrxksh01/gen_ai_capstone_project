@@ -11,3 +11,7 @@ langchain-core>=0.3.0,<1.0.0
 shap
 python-dotenv
 openpyxl
+langgraph
+faiss-cpu
+sentence-transformers
+langchain-huggingface
