@@ -1,7 +1,7 @@
-# Digital Retention Intelligence: Agentic AI Customer Churn Strategy
+# Telecom Retention Intelligence: Agentic AI Churn Strategy
 ### Gen AI Capstone Project — Milestone 2 (End-Sem Submission)
 
-This project represents the evolution of a standard machine learning classifier into a sophisticated **Agentic AI Retention Strategy Assistant**. By leveraging **LangGraph** for workflow orchestration and **RAG (Retrieval-Augmented Generation)** for strategy lookup, the system doesn't just predict *who* will leave — it reasons about *why* and retrieves *exactly* how to save them.
+This project represents the evolution of a standard machine learning classifier into a sophisticated **Telecom Retention Strategy Assistant**. By leveraging **LangGraph** for workflow orchestration and **RAG (Retrieval-Augmented Generation)** for strategy lookup, the system doesn't just predict *who* will leave — it reasons about *why* and retrieves *exactly* how to save them on the network.
 
 ---
 
@@ -21,8 +21,8 @@ The heart of this project is a multi-node **LangGraph State Machine** that execu
 ### The Reasoning Workflow (LangGraph)
 1.  **Prediction Node**: Accepts raw customer data and invokes the trained **XGBoost Pipeline** to determine churn probability and label.
 2.  **Explanation Node (SHAP)**: Autonomously triggers a **SHAP (SHapley Additive exPlanations)** analysis to identify the top 3 drivers (features) pushing the customer toward or away from churn.
-3.  **RAG Retrieval Node**: Takes the primary risk factors identified by SHAP and queries a **FAISS Vector Store** initialized with e-commerce retention best practices to find relevant interventions.
-4.  **Synthesis Node**: A **Groq-powered LLM** (LLaMA 3.3 70B) synthesizes the prediction, SHAP drivers, and RAG strategies into a professional, structured retention report.
+3.  **RAG Retrieval Node**: Takes the primary risk factors identified by SHAP and queries a **FAISS Vector Store** initialized with **Telecommunications retention best practices** to find relevant interventions.
+4.  **Synthesis Node**: A **Groq-powered LLM** (LLaMA 3.3 70B) synthesizes the prediction, SHAP drivers, and RAG strategies into a professional, structured **Telecom Retention Report**.
 
 ---
 
@@ -33,7 +33,7 @@ Unlike linear scripts, this system uses a formal **State Graph** to manage memor
 
 ### 2. RAG-Powered Decisions (FAISS + HuggingFace)
 We implemented a **Retrieval-Augmented Generation (RAG)** system using:
-- **Knowledge Base**: A curated collection of professional e-commerce retention strategies.
+- **Knowledge Base**: A curated collection of professional **telecom network & contract retention** strategies.
 - **Embeddings**: `sentence-transformers/all-MiniLM-L6-v2` for semantic search.
 - **Vector DB**: In-memory **FAISS** for millisecond retrieval of strategies based on the identified risk profile.
 
@@ -60,7 +60,7 @@ The agent dynamically adjusts its reporting tone:
 ```text
 gen_ai_capstone_project/
 ├── app.py                # Main Entry Point
-├── data/                 # Raw/Processed Data (E-commerce Dataset)
+├── data/                 # Raw/Processed Data (Telecom Dataset)
 ├── notebooks/            # Research & EDA (Jupyter Notebooks)
 ├── models/               # Trained Models (XGBoost Pipeline)
 ├── src/                  # Source Code (LangGraph & Logic)

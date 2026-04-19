@@ -10,8 +10,8 @@ from src.agent import create_churn_agent
 
 # ─── Page Config ───
 st.set_page_config(
-    page_title="Customer Churn Predictor — AI Agent",
-    layout="centered",
+    page_title="Telecom Churn Predictor — AI Agent",
+    layout="balanced",
 )
 
 # ─── Cache the agent so it's not recreated on every rerun ───
@@ -22,9 +22,9 @@ def get_agent():
 agent_executor = get_agent()
 
 # ─── Header ───
-st.title("Customer Churn Predictor")
+st.title("Telecom Churn Predictor")
 st.caption(
-    "Powered by **LangChain Agent** · Groq LLaMA 3.3 70B · SHAP Explainability"
+    "Powered by **LangChain Agent** · Groq LLaMA 3.3 70B · Telecom Network Guard"
 )
 st.markdown("---")
 
@@ -222,12 +222,12 @@ with st.sidebar:
         st.session_state["PreferredLoginDevice"] = st.selectbox("Login Device", ["Mobile Phone", "Computer"], index=["Mobile Phone", "Computer"].index(st.session_state["PreferredLoginDevice"]))
         st.session_state["PreferredPaymentMode"] = st.selectbox("Payment Mode", ["UPI", "Credit Card", "Debit Card", "Cash on Delivery", "E wallet", "COD"], index=["UPI", "Credit Card", "Debit Card", "Cash on Delivery", "E wallet", "COD"].index(st.session_state["PreferredPaymentMode"]))
         st.session_state["Gender"] = st.selectbox("Gender", ["Male", "Female"], index=["Male", "Female"].index(st.session_state["Gender"]))
-        st.session_state["PreferedOrderCat"] = st.selectbox("Order Category", ["Grocery", "Mobile", "Laptop & Accessory", "Mobile Phone", "Others"], index=["Grocery", "Mobile", "Laptop & Accessory", "Mobile Phone", "Others"].index(st.session_state["PreferedOrderCat"]))
+        st.session_state["PreferedOrderCat"] = st.selectbox("Service Category", ["Internet", "Fiber", "Mobile", "Streaming", "Others"], index=["Internet", "Fiber", "Mobile", "Streaming", "Others"].index(st.session_state["PreferedOrderCat"]))
         st.session_state["MaritalStatus"] = st.selectbox("Marital Status", ["Single", "Married"], index=["Single", "Married"].index(st.session_state["MaritalStatus"]))
 
 # Main Area
-st.title("Customer Churn Intelligence")
-st.markdown("Deep demographic & behavioural analysis powered by **Groq LLaMA 70B**.")
+st.title("Telecom Retention Intelligence: Agentic AI Churn Strategy")
+st.markdown("Deep network usage & behavioural analysis powered by **Groq LLaMA 70B**.")
 
 # Use session state to persist the agent result across reruns
 st.session_state.setdefault("agent_result", None)
